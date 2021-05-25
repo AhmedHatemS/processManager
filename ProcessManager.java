@@ -96,6 +96,7 @@ class ProcessManager {
     }
 
     private static void sendSignalToProcess() {
+        input = new Scanner(System.in);
         try {
             listAllProcesses();
             System.out.println();
