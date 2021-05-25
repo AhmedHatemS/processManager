@@ -6,7 +6,6 @@ class ProcessManager {
     static Scanner input;
     static int operation;
     static String pid = "";
-    static String user= "";
     static String signals = "";
     static String command = "";
     static String line = "";
@@ -68,7 +67,7 @@ class ProcessManager {
 
     private static void listAllProcesses() {
         try {
-            command = "ps ax";
+            command = "ps a";
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
@@ -82,11 +81,8 @@ class ProcessManager {
     }
 
     private static void listAllProcessesGrouped() {
-	input = new Scanner(System.in);
         try {
-            System.out.print("Enter the user: ");
-            user= input.nextLine();
-            command = "ps -u " + user;
+            command = "ps -au";
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
