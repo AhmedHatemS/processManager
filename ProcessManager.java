@@ -3,14 +3,14 @@ import java.lang.*;
 import java.io.*; //BufferedReader, InputStreamReader;
 
 class ProcessManager {
-    Scanner input;
-    int operation;
-    String pid = "";
-    String signals = "";
-    String command = "";
-    String line = "";
-    Process proc;
-    BufferedReader reader;
+    static Scanner input;
+    static int operation;
+    static String pid = "";
+    static String signals = "";
+    static String command = "";
+    static String line = "";
+    static Process proc;
+    static BufferedReader reader;
 
     public static void main(String[] args) {
         input = new Scanner(System.in);
@@ -66,52 +66,68 @@ class ProcessManager {
     }
 
     private static void listAllProcesses() {
-        command = "ps ax";
-        proc = Runtime.getRuntime().exec(command);
-        reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        line = "";
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        try {
+            command = "ps ax";
+            proc = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
         }
-        proc.waitFor();
     }
 
     private static void listAllProcessesGrouped() {
-        command = "ps aux";
-        proc = Runtime.getRuntime().exec(command);
-        reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        line = "";
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        try {
+            command = "ps aux";
+            proc = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
         }
-        proc.waitFor();
     }
 
     private static void sendSignalToProcess() {
-        listAllProcesses();
-        System.out.println();
-        System.out.print("Enter process id: ");
-        pid = input.nextLine();
-        printAllSignals();
-        System.out.print("Enter signals number: ");
-        signals = input.nextLine();
-        command = "kill -" + signals + " " + pid;
-        proc = Runtime.getRuntime().exec(command);
-        reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        line = "";
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        try {
+            listAllProcesses();
+            System.out.println();
+            System.out.print("Enter process id: ");
+            pid = input.nextLine();
+            printAllSignals();
+            System.out.print("Enter signals number: ");
+            signals = input.nextLine();
+            command = "kill -" + signals + " " + pid;
+            proc = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
         }
-        proc.waitFor();
     }
 
-    public static void printAllSignals() {
-        command = "kill -l";
-        proc = Runtime.getRuntime().exec(command);
-        reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+    private static void printAllSignals() {
+        try {
+            command = "kill -l";
+            proc = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
         }
-        proc.waitFor();
     }
 }
