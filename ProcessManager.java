@@ -6,6 +6,7 @@ class ProcessManager {
     static Scanner input;
     static int operation;
     static String pid = "";
+    static String user= "";
     static String signals = "";
     static String command = "";
     static String line = "";
@@ -28,7 +29,7 @@ class ProcessManager {
                 do {
                     System.out.println("\nAvaliable options are:\n" +
                             "1. List all the processes in the system.\n" +//Ahmed
-                            "2. List all the processes in the system.\n" +//Omnia
+                            "2. List all the processes for user.\n" +//Omnia
                             "3. Display process ID of all processes.\n" +//Sara
                             "4. Run a specific process.\n" +//Sara
                             "5. Stop a specific process.\n" +//Sara
@@ -81,8 +82,11 @@ class ProcessManager {
     }
 
     private static void listAllProcessesGrouped() {
+	input = new Scanner(System.in);
         try {
-            command = "ps aux";
+            System.out.print("Enter the user: ");
+            user= input.nextLine();
+            command = "ps -u " + user;
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
