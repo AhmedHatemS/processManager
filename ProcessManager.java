@@ -120,11 +120,9 @@ class ProcessManager {
         try {
             listAllProcesses();
             System.out.println();
-            System.out.print("Please Enter command: ");
-            com = input.nextLine();
-            System.out.print("Enter process name or process ID: ");
+            System.out.print("Enter process name: ");
             pname = input.nextLine();
-            command = com + " " + pname;
+            command = pname+"&";
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
