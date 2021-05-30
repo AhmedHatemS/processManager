@@ -5,6 +5,7 @@ import java.io.*; //BufferedReader, InputStreamReader;
 class ProcessManager {
     static Scanner input;
     static int operation;
+    static String user = "";
     static String pname = "";
     static String pid = "";
     static String signals = "";
@@ -86,8 +87,11 @@ class ProcessManager {
     }
 
     private static void listAllProcessesGrouped() {
+          input = new Scanner(System.in);
         try {
-            command = "ps -au";
+            System.out.print("Enter the user: ");
+            user = input.nextLine();
+            command = "ps -u " + user;
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
