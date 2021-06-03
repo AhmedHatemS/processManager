@@ -73,7 +73,7 @@ class ProcessManager {
 
     private static void listAllProcesses() {
         try {
-            command = "ps a";
+            command = "ps -A";
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
@@ -106,7 +106,7 @@ class ProcessManager {
 
     private static void DisplayAllProcessesID() {
         try {
-            command = "ps -A";
+            command = "ps axo pid";
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
