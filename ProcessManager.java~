@@ -5,9 +5,12 @@ import java.io.*; //BufferedReader, InputStreamReader;
 class ProcessManager {
     static Scanner input;
     static int operation;
+    static String user = "";
+    static String pname = "";
     static String pid = "";
     static String signals = "";
     static String command = "";
+    static String com = "";
     static String line = "";
     static Process proc;
     static BufferedReader reader;
@@ -44,10 +47,13 @@ class ProcessManager {
                             listAllProcessesGrouped();
                             break;
                         case 3:
+                            DisplayAllProcessesID();
                             break;
                         case 4:
+                            RunProcess();
                             break;
                         case 5:
+                            StopProcess();
                             break;
                         case 6:
                             sendSignalToProcess();
@@ -67,7 +73,7 @@ class ProcessManager {
 
     private static void listAllProcesses() {
         try {
-            command = "ps ax";
+            command = "ps -A";
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
@@ -81,8 +87,11 @@ class ProcessManager {
     }
 
     private static void listAllProcessesGrouped() {
+          input = new Scanner(System.in);
         try {
-            command = "ps -au";
+            System.out.print("Enter the user: ");
+            user = input.nextLine();
+            command = "ps -u " + user;
             proc = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             line = "";
@@ -94,6 +103,59 @@ class ProcessManager {
             System.out.println("Exception found: " + e);
         }
     }
+
+    private static void DisplayAllProcessesID() {
+        try {
+            command = "ps axo pid";
+            proc = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
+        }
+    }
+
+    private static void RunProcess() {
+        input = new Scanner(System.in);
+        try {
+            listAllProcesses();
+            System.out.println();
+            System.out.print("Enter process name: ");
+            pname = input.nextLine();
+            command = pname+"";
+            proc = Runtime.getRuntime().exec(command);
+	    command = "^C";
+            proc = Runtime.getRuntime().exec(command);
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
+        }
+    }
+
+    private static void StopProcess() {
+        input = new Scanner(System.in);
+        try {
+            listAllProcesses();
+            System.out.println();
+            System.out.print("Enter process ID: ");
+            pid = input.nextLine();
+            command = "kill -9 " + pid;
+            proc = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            proc.waitFor();
+        } catch (Exception e) {
+            System.out.println("Exception found: " + e);
+        }
+    }
+
 
     private static void sendSignalToProcess() {
         input = new Scanner(System.in);
@@ -118,6 +180,7 @@ class ProcessManager {
         }
     }
 
+
     private static void printAllSignals() {
         try {
             command = "kill -l";
@@ -132,3 +195,4 @@ class ProcessManager {
         }
     }
 }
+

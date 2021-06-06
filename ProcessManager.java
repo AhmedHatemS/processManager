@@ -126,13 +126,8 @@ class ProcessManager {
             System.out.println();
             System.out.print("Enter process name: ");
             pname = input.nextLine();
-            command = pname+"&";
+            command = pname;
             proc = Runtime.getRuntime().exec(command);
-            reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            line = "";
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
             proc.waitFor();
         } catch (Exception e) {
             System.out.println("Exception found: " + e);
@@ -198,3 +193,4 @@ class ProcessManager {
         }
     }
 }
+
